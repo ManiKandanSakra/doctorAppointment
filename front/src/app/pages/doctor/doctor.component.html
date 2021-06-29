@@ -1,0 +1,155 @@
+<section>
+	<div class="container-md">
+		<h3 *ngIf="url != '/slot-list'">Appointments</h3>
+		<span *ngIf="url != '/slot-list'">
+			<a routerLink="/slot-list" class="m-3">View List</a> 
+		  	<button type="button" class="btn btn-danger" (click)="openModal(template)" style="float: right;">Add Slot</button>
+		</span>
+		<h3 *ngIf="url == '/slot-list'">Appointments list</h3><span *ngIf="url == '/slot-list'"><a routerLink="/slot">Create Slot</a></span>
+		<hr/>
+		
+		<div class="row align-self-center" *ngIf="url != '/slot-list'">
+		  <div class="col-xs-6 col-6 col-md-4 form-group">
+		    <!-- <input placeholder="Datepicker" class="form-control" #dp="bsDatepicker" bsDatepicker (change)="pickDate($event)" > -->
+		    <div class="datepicker pr-3 pb-3">
+				<bs-datepicker-inline [bsValue]="bsInlineValue" [minDate]="minDate" (bsValueChange)="pickDate($event)"></bs-datepicker-inline>
+			</div>
+		  </div>
+		 <!--  <div class="col-xs-6 col-6 col-md-3 form-group">
+		    <button class="btn btn-success" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" type="button">Pick Your Date</button>
+		  </div> -->
+		  <div class="col-xs-6 col-6 col-md-8 form-group">
+			  	<div class="form-inline align-self-center">
+			  		<p>Morning Slot : 9:00 - 12:00</p>
+			  		<span *ngFor="let mslot of mrgSlots">
+			  			<button type="button" class="btn btn-primary m-2" title="Appointment For {{mslot.details.username}} : {{mslot.details.slotNum}}" *ngIf="mslot.status == 'IN'">{{mslot.fromTime}} - {{mslot.toTime}}</button>
+			  			<button type="button" class="btn btn-outline-primary m-2" title="No Appointment Yet" *ngIf="mslot.status == 'OUT'">{{mslot.fromTime}} - {{mslot.toTime}}</button>
+			  		</span>
+			  	</div>
+			  	<hr/>
+			  	<div class="form-inline align-self-center">
+			  		<p>Evening Slot : 12:00 - 06:00</p>
+			  		<span *ngFor="let evlot of eveSlots">
+			  			<button type="button" class="btn btn-primary m-2" title="Appointment For {{evlot.details.username}} : {{evlot.details.slotNum}}" *ngIf="evlot.status == 'IN'">{{evlot.fromTime}} - {{evlot.toTime}}</button>
+			  			<button type="button" class="btn btn-outline-primary m-2" title="No Appointment Yet" *ngIf="evlot.status == 'OUT'">{{evlot.fromTime}} - {{evlot.toTime}}</button>
+			  		</span>
+			  	</div>
+			  	<hr/>
+		  </div>
+		</div>
+		<!-- <hr/> -->
+
+		<div class="row align-self-center" *ngIf="url == '/slot-list'">
+			<div class="col-xs-6 col-6 col-md-4 form-group"  *ngIf="url == '/slot-list'">
+		    <!-- <input placeholder="Datepicker" class="form-control" #dp="bsDatepicker" bsDatepicker (change)="pickDate($event)" > -->
+		    <div class="datepicker pr-3 pb-3">
+				<bs-datepicker-inline [bsValue]="bsInlineValue" (bsValueChange)="pickDate($event)"></bs-datepicker-inline>
+			</div>
+		  </div>
+			<div class="col-xs-6 col-6 col-md-8 form-group">
+			  <tabset>
+			    <tab heading="Morning Slots" id="tab1">
+			    	<table class="table">
+				    <thead>
+				      <tr>
+				        <th>Slot Number</th>
+				        <th>Name</th>
+				        <th>Contact</th>
+				        <th>Appoinment</th>
+				      </tr>
+				    </thead>
+				    <tbody *ngIf="mrgSlots.length > 0">
+				      <tr *ngFor="let listSolts of mrgSlots">
+				        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.slotNum}}</td>
+				        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.username}}</td>
+				        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.contact}}</td>
+				        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.fromTime}} - {{listSolts.details.toTime}}</td>
+				      </tr>
+				    </tbody>
+				    <tbody *ngIf="mrgSlots.length == 0">
+				    	<tr class="align-self-center">
+				    		No Appointment
+				    	</tr>
+				    </tbody>
+				  </table>
+				</tab>
+			    <tab heading="Evening Slots">
+			    	<table class="table">
+					    <thead>
+					      <tr>
+					        <th>Slot Number</th>
+					        <th>Name</th>
+					        <th>Contact</th>
+					        <th>Appoinment</th>
+				      	</tr>
+					    </thead>
+					    <tbody *ngIf="eveSlots.length > 0">
+					      <tr *ngFor="let listSolts of eveSlots">
+					        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.slotNum}}</td>
+					        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.username}}</td>
+					        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.contact}}</td>
+					        <td *ngIf="listSolts.status=='IN'">{{listSolts.details.fromTime}} - {{listSolts.details.toTime}}</td>
+					      </tr>
+					    </tbody>
+					    <tbody *ngIf="eveSlots.length == 0">
+					    	<tr class="align-self-center" style="text-align: center;">
+					    		No Appointment
+					    	</tr>
+				    	</tbody>
+					  </table>
+			    </tab>
+			  </tabset>
+			</div>
+		</div>
+	</div>
+</section>
+   
+
+<!-- Slot Model -->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Slot On {{slotData.slotDate}} </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+        <form name="slotForm" #slotForm='ngForm' autocomplete="off">
+		    	<div class="form-group">
+			    	<div class="col-md-12">
+			    		<label>From Time</label>	
+			    	</div>	
+			    	<div class="col-md-12">
+			    		<select class="form-control" name="fromTime" [(ngModel)]="slotData.from" #fromTime='ngModel' required="">
+			    			<option value="">select</option>
+			    			<option *ngFor="let values of valueArray;let i=index" [value]="values">{{values}}</option>
+			    		</select>
+			    	</div>	
+		    	</div>
+		    	<div class="form-group">
+			    	<div class="col-md-12">
+			    		<label>To Time</label>	
+			    	</div>	
+			    	<div class="col-md-12">
+			    		<!-- <input  class="form-control" type="text" name="toTime" [(ngModel)]="slotData.toTimeValue" #toTime='ngModel' readonly=""> 
+			    		required="">-->
+			    		<select class="form-control" name="toTime" [(ngModel)]="slotData.to" #toTime='ngModel' required="">
+			    			<option value="">select</option>
+			    			<option *ngFor="let values of valueArray;let i=index" [value]="values">{{values}}</option>
+			    		</select>
+			    	</div>	
+    			</div>
+		    	<div class="form-group">
+		    		<div class="col-md-12">
+		    			<button class="btn btn-success m-3" [disabled]="slotForm.invalid" (click)="createSlot(slotForm,template)">Submit</button>
+		    			<!-- <button class="btn btn-success m-3" [disabled]="slotForm.invalid" (click)="createSlot(slotForm,template)"><img src="assets/images/loader.gif" style="height: 50px; width: 50px;"></button> -->
+		    			<button (click)="modalRef.hide()" class="btn btn-danger">Cancel</button>
+		    		</div>
+		    	</div>
+    </form>
+  </div>
+</ng-template>
+
+
+<!-- Slot Model -->
