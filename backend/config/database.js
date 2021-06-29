@@ -1,22 +1,27 @@
 //Databse connection
 const mongoose =require('mongoose')
-mongoose.set('useCreateIndex',true)
+var CryptoJS = require("crypto-js");
+
+var ciphertext = 'U2FsdGVkX19LobvUnDIkhEHJ+WDMxh4Eb59VdWB561f+1GQKUaq25ykClNDuD+3NHZ49g5NJi6KbsRu1b9CBUBJYDJaMufIHOUVsXd7hYYumdO46QeFu4+s/VT8x4ry61O9p0XlhB9HUHIPcMOltimjrWu0Q5nUL9CmB6WkpRrA=';
+
+var bytes  = CryptoJS.AES.decrypt(ciphertext, 'HniRbjKt$456)jhkh');
+var originalText = bytes.toString(CryptoJS.enc.Utf8);
+
 
 mongoose.set('useCreateIndex',true)
-
-function connection(){
-  mongoose.connect('mongodb+srv://mani:Mani@123@cluster0.kesa7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{ useNewUrlParser: true, useUnifiedTopology: true,keepAlive:true }).then(()=>{
-  console.log("DB connected")
+function connectDB(){
+  mongoose.connect(originalText,{ useNewUrlParser: true, useUnifiedTopology: true,keepAlive:true }).then(()=>{
+  console.log("Database connection Successfully")
   }).catch((err)=>{ 
-    console.log("DB connected Failed",err)
+    console.log("Database connection Failed",err)
   }); 
 }
 
-connection();
+connectDB();
 
 mongoose.connection.on('disconnected',()=>{
-  console.log('DB disconnected at',new Date())
-  connection()
+  console.log('Database disconnected')
+  connectDB()
 })
 
 //Databse connection

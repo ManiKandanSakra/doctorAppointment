@@ -20,19 +20,30 @@
 		  </div> -->
 		  <div class="col-xs-6 col-6 col-md-8 form-group">
 			  	<div class="form-inline align-self-center">
-			  		<p>Morning Slot : 9:00 - 12:00</p>
-			  		<span *ngFor="let mslot of mrgSlots">
-			  			<button type="button" class="btn btn-primary m-2" title="Appointment For {{mslot.details.username}} : {{mslot.details.slotNum}}" *ngIf="mslot.status == 'IN'">{{mslot.fromTime}} - {{mslot.toTime}}</button>
-			  			<button type="button" class="btn btn-outline-primary m-2" title="No Appointment Yet" *ngIf="mslot.status == 'OUT'">{{mslot.fromTime}} - {{mslot.toTime}}</button>
-			  		</span>
+			  		<p>Morning Slot : 9:00 AM to 12:00 AM</p>
+			  		<div *ngIf="mrgSlots.length > 0">
+				  		<span *ngFor="let mslot of mrgSlots">
+				  			<button type="button" class="btn btn-primary m-2" title="Appointment For {{mslot.details.username}} : {{mslot.details.slotNum}}" *ngIf="mslot.status == 'IN'">{{mslot.fromTime}} - {{mslot.toTime}}</button>
+				  			<button type="button" class="btn btn-outline-primary m-2" title="No Appointment Yet" *ngIf="mslot.status == 'OUT'">{{mslot.fromTime}} - {{mslot.toTime}}</button>
+				  		</span>
+			  		</div>
+			  		<div *ngIf="mrgSlots.length == 0">
+			  			<p style="color:Red;">No Sloat at this Time</p>
+			  		</div>
 			  	</div>
 			  	<hr/>
 			  	<div class="form-inline align-self-center">
-			  		<p>Evening Slot : 12:00 - 06:00</p>
-			  		<span *ngFor="let evlot of eveSlots">
-			  			<button type="button" class="btn btn-primary m-2" title="Appointment For {{evlot.details.username}} : {{evlot.details.slotNum}}" *ngIf="evlot.status == 'IN'">{{evlot.fromTime}} - {{evlot.toTime}}</button>
-			  			<button type="button" class="btn btn-outline-primary m-2" title="No Appointment Yet" *ngIf="evlot.status == 'OUT'">{{evlot.fromTime}} - {{evlot.toTime}}</button>
-			  		</span>
+			  		<p>Evening Slot : 5:00 PM to 9:00 PM</p>
+			  		<div *ngIf="eveSlots.length > 0">
+				  		<span *ngFor="let evlot of eveSlots">
+				  			<button type="button" class="btn btn-primary m-2" title="Appointment For {{evlot.details.username}} : {{evlot.details.slotNum}}" *ngIf="evlot.status == 'IN'">{{evlot.fromTime}} - {{evlot.toTime}}</button>
+				  			<button type="button" class="btn btn-outline-primary m-2" title="No Appointment Yet" *ngIf="evlot.status == 'OUT'">{{evlot.fromTime}} - {{evlot.toTime}}</button>
+				  		</span>
+			  		</div>
+			  		<div *ngIf="eveSlots.length == 0">
+			  			<p style="color:Red;">No Sloat at this Time</p>
+			  		</div>
+
 			  	</div>
 			  	<hr/>
 		  </div>
@@ -118,7 +129,7 @@
         <form name="slotForm" #slotForm='ngForm' autocomplete="off">
 		    	<div class="form-group">
 			    	<div class="col-md-12">
-			    		<label>From Time</label>	
+			    		<label>From</label>	
 			    	</div>	
 			    	<div class="col-md-12">
 			    		<select class="form-control" name="fromTime" [(ngModel)]="slotData.from" #fromTime='ngModel' required="">
@@ -129,7 +140,7 @@
 		    	</div>
 		    	<div class="form-group">
 			    	<div class="col-md-12">
-			    		<label>To Time</label>	
+			    		<label>To</label>	
 			    	</div>	
 			    	<div class="col-md-12">
 			    		<!-- <input  class="form-control" type="text" name="toTime" [(ngModel)]="slotData.toTimeValue" #toTime='ngModel' readonly=""> 

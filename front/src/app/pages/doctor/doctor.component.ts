@@ -49,10 +49,8 @@ export class DoctorComponent implements OnInit {
   pickDate(event:any){
     var solDate = new Date(event);
     var date     = moment(solDate,"DD-MM-YYYY");
-    // console.log('event -->',date);
     this.slotData.slotDate = moment(date).format('DD-MM-YYYY');
-    this.getAssignedSlot()
-    // console.log('event -->',moment(date).format('DD-MM-YYYY'));
+    this.getAssignedSlot();
   }
   // Select Date Function
 
@@ -60,9 +58,8 @@ export class DoctorComponent implements OnInit {
   // Get Assigned Sloat
     getAssignedSlot(){
       var sendData = {'date':this.slotData.slotDate};
-        // console.log('sendData -->',sendData);
       this.conn.postData('slots/getAssigned',sendData).subscribe((response:any)=>{
-        // console.log('response -->',response);
+        console.log('response -->',response);
           if(response.status == true){
             var slotRes = response.result;
             this.mrgSlots = slotRes[0].mrgSlot;
@@ -85,7 +82,6 @@ export class DoctorComponent implements OnInit {
     var startTime = moment(from, "HH:mm");
     var endTime = moment(to, "HH:mm");
     var Timediff = endTime.diff(startTime, 'minutes');
-    // console.log('minutes -->',Timediff);
     if(Timediff > 30){
       this.notify.error("You can't create slot more then 30 minutes","Error");
       return;
@@ -95,15 +91,11 @@ export class DoctorComponent implements OnInit {
     }else{
       this.conn.postData('slots/createSlot',postData).subscribe((result:any)=>{
         if( result.status == true ){
+          this.getAssignedSlot();
           this.modalRef.hide();
           form.reset();
           this.slotData.to = ''; 
           this.slotData.from = '';
-          if(result.type == 'Morning'){
-            this.mrgSlots.push(result.result);
-          }else{
-            this.eveSlots.push(result.result);
-          }
           this.notify.success(result.msg,"Success");
         }
         else{

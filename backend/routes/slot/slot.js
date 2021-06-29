@@ -11,8 +11,6 @@ var moment=require("moment");
 // Get Slot Timer
   router.get('/slotTimer', function(req, res, next) {
     var slotRes = ts.getTimeSlots([[30,510]],true,"half");
-    // var slotRes = ts.getTimeSlots([],true, "half", false, false);
-    // console.log('slotTimer -->',slotRes)
     var valueArray, keyArray;
     if(slotRes && typeof(slotRes) != "undefined"){
          valueArray = Object.values(slotRes);
@@ -47,9 +45,7 @@ var moment=require("moment");
           var where={'slotDate':date,"mrgSlot":{'$elemMatch':{'fromTime':fromTime,'toTime': toTime}}}
           slotType = 'Morning';
         }
-        console.log('where -->',where);
         slotDetails.find(where,(err,slotRes)=>{
-          console.log('slotRes -->',slotRes)
           if(slotRes.length == 0){
             var slotArray       = [{'fromTime':fromTime,'toTime':toTime,'status': 'OUT','details':{}}];
             if(slotType == 'Morning'){
@@ -106,9 +102,9 @@ var moment=require("moment");
   router.post('/getAssigned', function(req, res, next) {
     try{
       let info = req.body;
-      var date = info.date
-      slotDetails.find({'slotDate':date},(err,slotRes)=>{ 
-      // slotDetails.find({'slotDate':date,$or:[{'mrgSlot.status':'IN'},{'eveSlot.status':'IN'}]},(err,slotRes)=>{ 
+      var date = info.date;
+      var where={'slotDate':date}
+      slotDetails.find(where,(err,slotRes)=>{ 
         if(!err){
           if(slotRes.length > 0){
             res.json({status:true,result:slotRes, msg:""})

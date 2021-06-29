@@ -6,7 +6,6 @@ import { Observable, throwError } from 'rxjs';
 // Backend URL
 const host = window.location.hostname;
 const backendURL = "http://"+host+":3000/";
-console.log('backendURL -->',backendURL)
 // Backend URL
 
 @Injectable({

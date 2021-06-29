@@ -3,9 +3,6 @@ var router = express.Router();
 var ts=require("time-slots-generator");
 var moment=require("moment");
 var validator = require('validator');
-// var randomInt=require("random-int");
-// var Rnum = randomInt(100, 999);
-// console.log('Rnum -->',Rnum)
 
 // Collections
   const slotDetails  = require('../../collections/slotDetails');
@@ -43,10 +40,7 @@ var validator = require('validator');
           var where={'slotDate':date,"mrgSlot":{'$elemMatch':{'fromTime':fromTime,'toTime': toTime,status:'OUT'}}}
           slotType = 'Morning';
         }
-        console.log('where -->',where);
         slotDetails.find(where,(err,slotRes)=>{
-        // console.log('where err -->',err);
-          // console.log('slotRes -->',slotRes)
           if(slotRes.length > 0){
             var slotNum = (Math.floor(Math.random() * 100) + 1);
             var slotArray  = {'fromTime':fromTime,'toTime': toTime,'username':username,'contact':contact,'slotNum':'SLOT-'+ slotNum};
@@ -56,10 +50,7 @@ var validator = require('validator');
             }else{
               upData = {$set:{'eveSlot.$.status':"IN",'eveSlot.$.details':slotArray}}
             }
-            // console.log('upData -->',upData);
             slotDetails.updateOne(where,upData,(err,upRes)=>{
-              // console.log('upRes err -->',err);
-              // console.log('upRes -->',upRes);
               if(!err){
                 res.json({status:true,slot:slotNum, msg:slotType+' Slot Allocated, Kindly Note Your Slot Number'});
               }else{
