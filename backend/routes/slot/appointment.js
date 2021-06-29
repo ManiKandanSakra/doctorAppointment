@@ -9,8 +9,8 @@ var validator = require('validator');
 // Collections
 
 
-// Create Appoinment
-  router.post('/createAppointment',function(req,res,next){
+// Slot Booking
+  router.post('/slotBooking',function(req,res,next){
     try{
       let info = req.body;
       var date = info.date;
@@ -68,7 +68,7 @@ var validator = require('validator');
       res.json({status:false,result:[], msg:e});
     }
   })
-// Create Appointment
+// Slot Booking
 
 
 module.exports = router;

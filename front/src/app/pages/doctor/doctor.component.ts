@@ -99,12 +99,11 @@ export class DoctorComponent implements OnInit {
           this.notify.success(result.msg,"Success");
         }
         else{
-          this.notify.error(result.msg,'error')
+          this.notify.error(result.msg,'Error')
         }
       })
     }
   }
   // Create Slot
-
 
 }
