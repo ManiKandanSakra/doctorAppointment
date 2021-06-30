@@ -13,17 +13,13 @@ var moment = require("moment");
   styleUrls: ['./doctor.component.css']
 })
 export class DoctorComponent implements OnInit {
-  modalRef: any;mrgSlots:any =[];url:any;mrgSlotList:any =[];eveSlotList:any =[];eveSlots:any =[];valueArray=[];keyArray=[];slotData:any = {slotDate:moment(new Date()).format('DD-MM-YYYY'),'from':'','to':''};
-  bsInlineValue:Date = new Date();
-  // bsInlineRangeValue: Date[];
-  minDate:Date             = new Date();
+  modalRef: any;mrgSlots:any =[];url:any;mrgSlotList:any =[];eveSlotList:any =[];eveSlots:any =[];valueArray=[];keyArray=[];slotData:any = {slotDate:moment(new Date()).format('DD-MM-YYYY'),'from':'','to':''};bsInlineValue:Date = new Date(); minDate:Date = new Date();
   constructor(private router: Router,private modalService: BsModalService, private conn : ConnectionService, public notify:ToastrService) {
         this.minDate.setDate(this.minDate.getDate());
         // this.bsInlineRangeValue = [this.bsInlineValue, this.maxDate];
   }
 
   ngOnInit(): void {
-    console.log('URL ->',this.router.url);
     this.url = this.router.url;
     this.getSlots();
     this.getAssignedSlot();
@@ -59,7 +55,6 @@ export class DoctorComponent implements OnInit {
     getAssignedSlot(){
       var sendData = {'date':this.slotData.slotDate};
       this.conn.postData('slots/getAssigned',sendData).subscribe((response:any)=>{
-        console.log('response -->',response);
           if(response.status == true){
             var slotRes = response.result;
             this.mrgSlots = slotRes[0].mrgSlot;
